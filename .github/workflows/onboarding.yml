@@ -1,0 +1,34 @@
+name: Onboard Employee
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Full employee name"
+        required: true
+      email:
+        description: "Employee email"
+        required: true
+      department:
+        description: "Department"
+        required: true
+      role:
+        description: "Role"
+        required: true
+
+jobs:
+  onboard:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run onboarding script
+        shell: powershell
+        run: |
+          ./scripts/onboarding/New-Employee.ps1 `
+            -Name "${{ github.event.inputs.name }}" `
+            -Email "${{ github.event.inputs.email }}" `
+            -Department "${{ github.event.inputs.department }}" `
+            -Role "${{ github.event.inputs.role }}"

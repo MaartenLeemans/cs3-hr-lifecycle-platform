@@ -1,0 +1,22 @@
+name: Offboard Employee
+
+on:
+  workflow_dispatch:
+    inputs:
+      samAccountName:
+        description: "SamAccountName"
+        required: true
+
+jobs:
+  offboard:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run offboarding script
+        shell: powershell
+        run: |
+          ./scripts/offboarding/Disable-Employee.ps1 `
+            -SamAccountName "${{ github.event.inputs.samAccountName }}"
