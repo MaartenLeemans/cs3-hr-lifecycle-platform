@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HR Lifecycle Platform</title>
+</head>
+<body>
 
+<h1>HR Lifecycle Platform</h1>
+
+<p>
+Logged in as AD user:
+<b>{{ username }}</b>
+|
+<a href="/logout">Logout</a>
+</p>
+
+<hr>
+
+<h2>Create and Onboard New Employee</h2>
+
+<form method="POST" action="/add">
+    <input type="text" name="name" placeholder="Full name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="department" placeholder="Department" required>
+    <input type="text" name="role" placeholder="Role" required>
+    <button type="submit">Create and Onboard AD User</button>
+</form>
+
+<hr>
+
+<h2>Existing Active Directory Users</h2>
+
+<table border="1">
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Department</th>
+    <th>Role</th>
+    <th>SamAccountName</th>
+    <th>AD Status</th>
+    <th>Database Status</th>
+    <th>Actions</th>
+</tr>
+
+{% for user in users %}
+<tr>
+    <td>{{ user.name }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.department }}</td>
+    <td>{{ user.role }}</td>
+    <td>{{ user.sam }}</td>
+    <td>{{ user.ad_status }}</td>
+    <td>{{ user.db_status }}</td>
+    <td>
+        <a href="/offboard/{{ user.sam }}">Offboard AD User</a>
+
+        {% if user.db_id %}
+        |
+        <a href="/events/{{ user.db_id }}">Events</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
