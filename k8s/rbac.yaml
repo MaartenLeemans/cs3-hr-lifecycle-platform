@@ -1,1 +1,29 @@
-
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hr-app-sa
+  namespace: hr-platform
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: hr-platform
+  name: hr-app-readonly
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services"]
+  verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hr-app-readonly-binding
+  namespace: hr-platform
+subjects:
+- kind: ServiceAccount
+  name: hr-app-sa
+  namespace: hr-platform
+roleRef:
+  kind: Role
+  name: hr-app-readonly
+  apiGroup: rbac.authorization.k8s.io
