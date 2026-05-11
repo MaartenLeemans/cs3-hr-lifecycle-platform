@@ -1,1 +1,48 @@
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hr-app
+  namespace: hr-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hr-app
+  template:
+    metadata:
+      labels:
+        app: hr-app
+    spec:
+      serviceAccountName: hr-app-sa
+      containers:
+      - name: hr-app
+        image: hr-lifecycle-app:1.1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: hr-app-secrets
+              key: DB_HOST
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: hr-app-secrets
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: hr-app-secrets
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: hr-app-secrets
+              key: DB_PASSWORD
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hr-app-secrets
+              key: GITHUB_TOKEN
