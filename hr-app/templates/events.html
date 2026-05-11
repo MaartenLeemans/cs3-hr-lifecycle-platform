@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lifecycle Events</title>
+</head>
+<body>
 
+<h1>Lifecycle Events</h1>
+
+<a href="/">Back to Dashboard</a>
+
+<br><br>
+
+<table border="1">
+<tr>
+    <th>Action</th>
+    <th>Message</th>
+    <th>Date</th>
+</tr>
+
+{% for event in events %}
+<tr>
+    <td>{{ event[0] }}</td>
+    <td>{{ event[1] }}</td>
+    <td>{{ event[2] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
